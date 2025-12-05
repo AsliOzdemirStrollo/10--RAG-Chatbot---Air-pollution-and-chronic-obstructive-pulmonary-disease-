@@ -17,6 +17,9 @@ DOC_TITLES = {
     "Air pollution and chronic obstructive pulmonary disease.pdf": (
         "Air pollution and chronic obstructive pulmonary disease (Review Article)"
     ),
+    "air_pollution.txt": (
+        "Air pollution and chronic obstructive pulmonary disease (Review Article)"
+    ),
 }
 
 
@@ -77,7 +80,7 @@ def main() -> None:
 
     # --- PDF download button ---
     try:
-        with open("data/air_pollution.pdf", "rb") as f:
+        with open("data_pdf/air_pollution.pdf", "rb") as f:
             st.download_button(
                 label="⬇️ Download the PDF (Review Article)",
                 data=f,
@@ -85,7 +88,10 @@ def main() -> None:
                 mime="application/pdf",
             )
     except FileNotFoundError:
-        st.warning("⚠️ Could not find `data/air_pollution.pdf`. Check the file name and path.")
+        st.warning(
+            "⚠️ Could not find `data_pdf/air_pollution.pdf`. "
+            "Check that the file exists in the `data_pdf` folder."
+        )
 
     st.markdown("---")
 
