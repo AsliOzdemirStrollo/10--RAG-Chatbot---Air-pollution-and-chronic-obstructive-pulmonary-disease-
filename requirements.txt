@@ -1,18 +1,15 @@
 streamlit==1.52.0
 
-# LlamaIndex core (matches your local version)
-llama-index==0.11.10
+# Core LlamaIndex pieces (compatible with each other)
+llama-index-core>=0.12.36,<0.13
+llama-index-llms-google-genai>=0.2.0,<0.3
+llama-index-embeddings-huggingface>=0.2.0,<0.3
 
-# Google GenAI + HuggingFace embeddings integrations
-llama-index-llms-google-genai
-llama-index-embeddings-huggingface
-
-# Google Generative AI SDK
+# Google Generative AI client
 google-generativeai==0.8.3
 
-# Embeddings + ML stack
+# Embeddings helper
 sentence-transformers==2.2.2
-torch
 
 # Utilities
 python-dotenv
