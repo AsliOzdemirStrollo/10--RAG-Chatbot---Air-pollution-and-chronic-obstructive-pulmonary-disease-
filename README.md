@@ -75,6 +75,29 @@ The system remains reliable even on challenging scientific queries.
 
 ---
 
+## ✨ Understanding Misspellings & Short Queries
+
+The chatbot is also robust to **typos, shorthand, and very short prompts**.  
+It can correctly interpret user intent even when questions look like:
+
+- “what about the UK?”  
+- “mortality?”  
+- “copd mechansims?” (with misspellings)  
+
+This is possible because of:
+
+### 🧩 **Condense+Context query rewriting**  
+Automatically rewrites unclear inputs into structured scientific queries.
+
+### 🧩 **HyDE (Hypothetical Document Embeddings)**  
+Generates a temporary synthetic answer to improve retrieval quality.
+
+🔥 These two techniques combined allow the chatbot to understand intent  
+—even when the input is short, vague, or misspelled—  
+while *still staying fully grounded in the PDF*.
+
+---
+
 ## 🖼️ Evaluation Summary Images
 
 ![Evaluation Results](images/summaries.png)
