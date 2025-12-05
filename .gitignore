@@ -1,0 +1,21 @@
+# Ignore environment variables
+.env
+
+# Ignore local model storage (HUGE)
+local_storage/
+
+# Ignore cached Python files
+__pycache__/
+*.pyc
+
+# Ignore Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Ignore system files
+.DS_Store
+
+# Ignore evaluation outputs (optional, but recommended)
+evaluation/evaluation_results/
+
+# Streamlit cache
+.streamlit/
