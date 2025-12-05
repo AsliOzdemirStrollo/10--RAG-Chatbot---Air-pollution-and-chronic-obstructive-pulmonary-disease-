@@ -135,6 +135,45 @@ while still staying **100% grounded in the PDF**.
 
 ---
 
+## 📦 Project Structure
+📁 RAG-Project/
+│
+├── 📁 data/                     # Text file used for RAG indexing
+│     └── air_pollution.txt
+│
+├── 📁 data_pdf/                 # PDF only for user download (NOT used for RAG)
+│     └── air_pollution.pdf
+│
+├── 📁 evaluation/               # Full evaluation pipeline using Ragas
+│     ├── evaluation_config.py
+│     ├── evaluation_engine.py
+│     ├── evaluation_model_loader.py
+│     ├── evaluation_questions.py
+│     ├── evaluation_helper_functions.py
+│     └── 📁 evaluation_results/
+│
+├── 📁 images/                   # Evaluation summary visuals
+│     └── summary_.png
+│
+├── 📁 src/                      # Core RAG implementation
+│     ├── config.py              # Global configuration (incl. vector_store_v4 path)
+│     ├── engine.py              # Chat engine with HyDE, reranking, query rewriting
+│     └── model_loader.py        # LLM + embedding initializers
+│
+├── 📁 local_storage/            # Auto-generated index & embeddings (ignored by Git)
+│     ├── embedding_model/
+│     ├── vector_store/          # Old versions (ignored)
+│     └── vector_store_v4/       # Current production index
+│
+├── .gitignore                   # Ensures vector stores & caches are NOT uploaded
+│
+├── app.py                       # Streamlit UI for the chatbot
+├── evaluate.py                  # Script to run full evaluation
+├── main.py                      # Optional local CLI chatbot
+├── requirements.txt             # Project dependencies
+└── README.md                    # Documentation
+
+---
 ## 🚀 Try the App
 
 👉 **https://rag-chatbot-airpollution.streamlit.app/**
