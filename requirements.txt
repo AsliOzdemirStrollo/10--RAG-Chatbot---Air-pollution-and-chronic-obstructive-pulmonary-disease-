@@ -1,18 +1,17 @@
 streamlit==1.52.0
 
-# LlamaIndex + core
-llama-index==0.11.10
-llama-index-core==0.11.10
-
-# Google GenAI LLM + HF embeddings
+# LlamaIndex with Google GenAI + HuggingFace embeddings
 llama-index-llms-google-genai==0.2.0
 llama-index-embeddings-huggingface==0.2.0
+
+# Google Generative AI SDK (for compatibility with your code)
 google-generativeai==0.8.3
 
-# Needed by the embedding stack; let these pull torch themselves
+# Embeddings + ML stack
 sentence-transformers==2.2.2
+torch
 
-# General utilities
+# Utilities
 python-dotenv
 pandas
 numpy
