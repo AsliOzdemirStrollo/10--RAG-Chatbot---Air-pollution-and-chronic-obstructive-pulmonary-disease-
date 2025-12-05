@@ -1,10 +1,13 @@
 streamlit==1.52.0
 
-# LlamaIndex with Google GenAI + HuggingFace embeddings
-llama-index-llms-google-genai==0.2.0
-llama-index-embeddings-huggingface==0.2.0
+# LlamaIndex core (matches your local version)
+llama-index==0.11.10
 
-# Google Generative AI SDK (for compatibility with your code)
+# Google GenAI + HuggingFace embeddings integrations
+llama-index-llms-google-genai
+llama-index-embeddings-huggingface
+
+# Google Generative AI SDK
 google-generativeai==0.8.3
 
 # Embeddings + ML stack
