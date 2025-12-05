@@ -51,27 +51,24 @@ Adjusted parameters to maximize grounding and robustness.
 
 ---
 
-## 📊 Evaluation Results
+## 📊 Evaluation Results (6 Questions)
 
-Two evaluation rounds were performed:
+A full evaluation was performed using **six advanced scientific questions** that required:
 
-### ✅ Round 1 — 2 simple questions  
-High metrics across faithfulness, precision, and recall.
+- Mechanism understanding  
+- Pollutant-specific comparisons  
+- Epidemiological reasoning  
+- Regional correlations  
+- Mortality analysis  
+- Combining information across multiple PDF sections  
 
-### ✅ Round 2 — 6 advanced questions  
-These required combining:
-- mechanisms  
-- pollutant-specific effects  
-- mortality comparisons  
-- regional differences  
-
-**Key conclusions:**
+### **Final Scores (6-Question Evaluation)**  
 - 🟢 **Faithfulness = 1.0 → zero hallucinations**  
-- 🟡 Precision dropped only because the questions became more difficult  
-- The chatbot still produced accurate, well-supported explanations  
+- 🔵 Strong context recall  
+- 🟡 Slightly lower precision due to increased question difficulty  
 
-**Overall:**  
-The system remains reliable even on challenging scientific queries.
+**Conclusion:**  
+The chatbot remains *highly reliable* and *PDF-grounded*, even for complex queries.
 
 ---
 
@@ -82,32 +79,34 @@ It can correctly interpret user intent even when questions look like:
 
 - “what about the UK?”  
 - “mortality?”  
-- “copd mechansims?” (with misspellings)  
+- “copd mechansims?”  
+- “pollution effect china?”  
 
 This is possible because of:
 
-### 🧩 **Condense+Context query rewriting**  
-Automatically rewrites unclear inputs into structured scientific queries.
+### 🧩 **Condense+Context Query Rewriting**  
+Automatically rewrites unclear inputs into full scientific questions.
 
 ### 🧩 **HyDE (Hypothetical Document Embeddings)**  
-Generates a temporary synthetic answer to improve retrieval quality.
+Generates a temporary synthetic answer to improve semantic search.
 
-🔥 These two techniques combined allow the chatbot to understand intent  
-—even when the input is short, vague, or misspelled—  
-while *still staying fully grounded in the PDF*.
+🔥 Together, these techniques allow the chatbot to understand what the user *means*,  
+even if the text is short, vague, or misspelled—  
+while **still remaining grounded strictly in the PDF**.
 
 ---
 
 ## 🖼️ Evaluation Summary Images
 
-![Evaluation Results](images/summaries.png)
+![Evaluation Results](images/summary_.png)
 
-(Add this image to your repo at: `images/summaries.png`)
+(Add your updated image to the repo as:  
+`images/summary_.png`)
 
 ---
 
 ## 🚀 Try the App
 
-👉 https://rag-chatbot-airpollution.streamlit.app/
+👉 **https://rag-chatbot-airpollution.streamlit.app/**
 
 Ask scientific questions, explore the PDF, and test the retrieval accuracy in real time.
