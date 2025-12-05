@@ -47,7 +47,7 @@ def _create_new_vector_store(
     print("Creating new vector store from all files in the 'data' directory...")
 
     documents: list[Document] = SimpleDirectoryReader(
-        input_dir=DATA_PATH
+        input_files=[DATA_PATH / "air_pollution.txt"]
     ).load_data()
 
     if not documents:
