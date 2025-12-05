@@ -62,4 +62,4 @@ CHAT_MEMORY_TOKEN_LIMIT: int = 3900
 ROOT_PATH: Path = Path(__file__).parent.parent
 DATA_PATH: Path = ROOT_PATH / "data/"
 EMBEDDING_CACHE_PATH: Path = ROOT_PATH / "local_storage" / "embedding_model/"
-VECTOR_STORE_PATH = ROOT_PATH / "local_storage" / "vector_store_v2/"
+VECTOR_STORE_PATH: Path = ROOT_PATH / "local_storage" / "vector_store_v3/"
