@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import sys
-from pathlib import Path
 
 from llama_index.core import (
     StorageContext,
@@ -13,7 +12,6 @@ from llama_index.core import (
 )
 from llama_index.core.chat_engine import CondensePlusContextChatEngine
 from llama_index.core.memory import ChatSummaryMemoryBuffer
-from llama_index.core.node_parser import SemanticSplitterNodeParser
 from llama_index.core.schema import Document
 
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
@@ -25,14 +23,11 @@ from src.config import (
     SIMILARITY_TOP_K,
     VECTOR_STORE_PATH,
     CHAT_MEMORY_TOKEN_LIMIT,
-    BUFFER_SIZE,
-    BREAKPOINT_PERCENTILE_THRESHOLD,
 )
 
 from src.model_loader import (
     get_embedding_model,
     initialise_llm,
-    get_splitter_embedding_model,
 )
 
 
@@ -42,13 +37,13 @@ def _log(msg: str) -> None:
 
 
 # ---------------------------------------------------------------------
-# Vector store creation / loading
+# Vector store creation / loading (simplified: no semantic splitter)
 # ---------------------------------------------------------------------
 def _create_new_vector_store(
     embed_model: HuggingFaceEmbedding,
 ) -> VectorStoreIndex:
     """Creates, saves, and returns a new vector store from documents."""
-    _log("engine: creating new vector store from air_pollution.txt ...")
+    _log("engine: creating new SIMPLE vector store from air_pollution.txt ...")
 
     documents: list[Document] = SimpleDirectoryReader(
         input_files=[DATA_PATH / "air_pollution.txt"]
@@ -59,25 +54,16 @@ def _create_new_vector_store(
             f"No documents found in {DATA_PATH}. Cannot create vector store."
         )
 
-    # Semantic splitter
-    semantic_splitter_embedding_model = get_splitter_embedding_model()
-    semantic_splitter = SemanticSplitterNodeParser(
-        buffer_size=BUFFER_SIZE,
-        breakpoint_percentile_threshold=BREAKPOINT_PERCENTILE_THRESHOLD,
-        embed_model=semantic_splitter_embedding_model,
-    )
-
-    # Build index using semantic splitter
+    # Simple index build: no semantic splitter, just default chunking
     index: VectorStoreIndex = VectorStoreIndex.from_documents(
         documents,
-        transformations=[semantic_splitter],
         embed_model=embed_model,
     )
 
     VECTOR_STORE_PATH.mkdir(parents=True, exist_ok=True)
     index.storage_context.persist(persist_dir=VECTOR_STORE_PATH.as_posix())
 
-    _log("engine: vector store created and saved using semantic splitter.")
+    _log("engine: SIMPLE vector store created and saved.")
     return index
 
 
@@ -103,7 +89,7 @@ def get_vector_store(embed_model: HuggingFaceEmbedding) -> VectorStoreIndex:
 
 
 # ---------------------------------------------------------------------
-# Chat engine (deployment-friendly: no HyDE, no reranker)
+# Chat engine (deployment-friendly)
 # ---------------------------------------------------------------------
 def get_chat_engine(
     llm: GoogleGenAI,
@@ -116,7 +102,7 @@ def get_chat_engine(
     - Uses a standard retriever from the vector store
     - Uses Condense+Context chat engine
     - Keeps conversation memory
-    - DOES NOT use HyDE or the SentenceTransformer reranker
+    - No HyDE, no reranker, no semantic splitter
     """
     _log("engine: get_chat_engine() start")
 
@@ -136,13 +122,13 @@ def get_chat_engine(
     )
     _log("engine: memory buffer ready")
 
-    # 4. Chat engine (no HyDE, no reranker)
+    # 4. Chat engine
     chat_engine: CondensePlusContextChatEngine = CondensePlusContextChatEngine(
         retriever=base_retriever,
         llm=llm,
         memory=memory,
         system_prompt=LLM_SYSTEM_PROMPT,
-        node_postprocessors=[],  # no reranker in this deployment version
+        node_postprocessors=[],
     )
 
     _log("engine: chat engine created")
@@ -150,7 +136,7 @@ def get_chat_engine(
 
 
 # ---------------------------------------------------------------------
-# MAIN LOOP (still works for local CLI testing)
+# MAIN LOOP (for local CLI testing)
 # ---------------------------------------------------------------------
 def main_chat_loop() -> None:
     """Main application loop to run the RAG chatbot."""
