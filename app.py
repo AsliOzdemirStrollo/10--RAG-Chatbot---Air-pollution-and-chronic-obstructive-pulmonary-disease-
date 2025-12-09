@@ -85,53 +85,70 @@ def main() -> None:
     st.markdown(page_bg, unsafe_allow_html=True)
 
     # --- Custom CSS to fix text visibility in dark & light mode ---
-  
-       
-    st.markdown("""
-    <style>
+    st.markdown(
+        """
+        <style>
 
-    /* Force all chat text to black (user + assistant) */
-    [data-testid="stChatMessage"] p,
-    [data-testid="stChatMessage"] span,
-    [data-testid="stChatMessageContent"],
-    [data-testid="stChatMessageContent"] * {
-        color: #000 !important;
-    }
+        /* ---------------------------
+           Force ALL text inside buttons to black
+           (Send button, form submit buttons, regular buttons)
+        --------------------------- */
+        button,
+        button * {
+            color: #000 !important;
+        }
 
-    /* Fix markdown inside chat bubbles and main area */
-    [data-testid="stMarkdownContainer"] *,
-    .stMarkdown p,
-    .stMarkdown span,
-    .stMarkdown li,
-    .stMarkdown strong {
-        color: #000 !important;
-    }
+        /* Streamlit form submit button (Send button) specific selectors */
+        div.stButton > button,
+        form button,
+        [data-testid="stFormSubmitButton"] button,
+        [data-testid="stFormSubmitButton"] button * {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #999999 !important;
+        }
 
-    /* Fix expander text color */
-    [data-testid="stExpander"] *,
-    [data-testid="stExpander"] p,
-    [data-testid="stExpander"] span {
-        color: #000 !important;
-    }
+        /* Fix download button */
+        [data-testid="stDownloadButton"] button,
+        [data-testid="stDownloadButton"] button * {
+            color: #000 !important;
+        }
 
-    /* Fix download button + other buttons (Send) */
-    [data-testid="stDownloadButton"] button,
-    button[kind="secondary"],
-    button[kind="primary"],
-    button[kind="formSubmit"],
-    [data-testid^="baseButton"] {
-        background-color: #FFFFFF !important;
-        color: #000000 !important;
-        border: 1px solid #999999 !important;
-    }
+        /* ---------------------------
+           Chat text (assistant + user)
+        --------------------------- */
+        [data-testid="stChatMessage"] p,
+        [data-testid="stChatMessage"] span,
+        [data-testid="stChatMessageContent"],
+        [data-testid="stChatMessageContent"] * {
+            color: #000 !important;
+        }
 
-    /* Keep your background stable */
-    [data-testid="stAppViewContainer"] {
-        background-color: #F5F7FA !important;
-    }
+        /* Markdown text */
+        [data-testid="stMarkdownContainer"] *,
+        .stMarkdown p,
+        .stMarkdown span,
+        .stMarkdown li,
+        .stMarkdown strong {
+            color: #000 !important;
+        }
 
-    </style>
-    """, unsafe_allow_html=True)
+        /* Expander text */
+        [data-testid="stExpander"] *,
+        [data-testid="stExpander"] p,
+        [data-testid="stExpander"] span {
+            color: #000 !important;
+        }
+
+        /* Background */
+        [data-testid="stAppViewContainer"] {
+            background-color: #F5F7FA !important;
+        }
+
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
     # --- Header ---
     st.title("🫁 Air Pollution & COPD – RAG Chatbot")
