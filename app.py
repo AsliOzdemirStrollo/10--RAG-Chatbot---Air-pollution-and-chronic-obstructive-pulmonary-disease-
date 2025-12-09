@@ -84,26 +84,48 @@ def main() -> None:
     """
     st.markdown(page_bg, unsafe_allow_html=True)
 
-    # --- Custom CSS: tighten layout & center content ---
-    st.markdown(
-        """
-        <style>
-        .block-container {
-            padding-top: 1rem !important;
-            padding-bottom: 2rem !important;
-            max-width: 850px;
-            margin: auto;
-        }
-        h1 {
-            margin-bottom: 0.5rem !important;
-        }
-        .stMarkdown p {
-            margin-bottom: 0.5rem !important;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+    # --- Custom CSS to fix text visibility in dark & light mode ---
+  
+    st.markdown("""
+    <style>
+
+    /* Force all chat text to black (user + assistant) */
+    [data-testid="stChatMessage"] p,
+    [data-testid="stChatMessage"] span,
+    [data-testid="stChatMessageContent"],
+    [data-testid="stChatMessageContent"] * {
+        color: #000 !important;
+    }
+
+    /* Fix markdown inside chat bubbles */
+    [data-testid="stMarkdownContainer"] *,
+    .stMarkdown p,
+    .stMarkdown span,
+    .stMarkdown li,
+    .stMarkdown strong {
+        color: #000 !important;
+    }
+
+    /* Fix expander text color */
+    [data-testid="stExpander"] *,
+    [data-testid="stExpander"] p,
+    [data-testid="stExpander"] span {
+        color: #000 !important;
+    }
+
+    /* Fix text inside download button & other widgets */
+    .stDownloadButton,
+    .stDownloadButton * {
+        color: #000 !important;
+    }
+
+    /* Keep your background stable */
+    [data-testid="stAppViewContainer"] {
+        background-color: #F5F7FA !important;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
 
     # --- Header ---
     st.title("🫁 Air Pollution & COPD – RAG Chatbot")
