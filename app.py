@@ -27,8 +27,8 @@ DOC_TITLES = {
 def init_chat_engine() -> object:
     """
     TEMP FIX:
-    Use a simple LLM-only chat engine so the app responds immediately online.
-    (RAG will be re-enabled later when cold-start issues are fixed.)
+    Simple LLM-only chat engine with conversation context.
+    Still no RAG, but uses chat history so follow-up questions make more sense.
     """
     llm: GoogleGenAI = initialise_llm()
 
@@ -37,11 +37,34 @@ def init_chat_engine() -> object:
             self.llm = llm
 
         def chat(self, query: str):
-            # GoogleGenAI via llama-index expects a list[ChatMessage]
-            messages = [ChatMessage(role=MessageRole.USER, content=query)]
+            import streamlit as st
+
+            messages: list[ChatMessage] = []
+
+            # System prompt to keep it on-topic
+            system_text = (
+                "You are a helpful assistant that answers questions about "
+                "air pollution and chronic obstructive pulmonary disease (COPD). "
+                "Use the previous conversation turns to interpret short or ambiguous "
+                "follow-up questions like 'what about in China?' or 'and there?'."
+            )
+            messages.append(ChatMessage(role=MessageRole.SYSTEM, content=system_text))
+
+            # Add previous conversation from Streamlit chat history
+            for msg in st.session_state.get("messages", []):
+                role = (
+                    MessageRole.USER
+                    if msg["role"] == "user"
+                    else MessageRole.ASSISTANT
+                )
+                messages.append(ChatMessage(role=role, content=msg["content"]))
+
+            # Add the current user question
+            messages.append(ChatMessage(role=MessageRole.USER, content=query))
+
+            # Call the LLM with full context
             response = self.llm.chat(messages)
 
-            # response is a ChatResponse; we just turn it into text
             return type("Resp", (), {"response": str(response)})
 
     return SimpleChatEngine(llm)
