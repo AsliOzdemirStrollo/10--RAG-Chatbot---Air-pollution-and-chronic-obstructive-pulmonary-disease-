@@ -85,34 +85,10 @@ def main() -> None:
     st.markdown(page_bg, unsafe_allow_html=True)
 
     # --- Custom CSS to fix text visibility in dark & light mode ---
+        # --- Custom CSS to fix text visibility in dark & light mode ---
     st.markdown(
         """
         <style>
-
-        /* ---------------------------
-           Force ALL text inside buttons to black
-           (Send button, form submit buttons, regular buttons)
-        --------------------------- */
-        button,
-        button * {
-            color: #000 !important;
-        }
-
-        /* Streamlit form submit button (Send button) specific selectors */
-        div.stButton > button,
-        form button,
-        [data-testid="stFormSubmitButton"] button,
-        [data-testid="stFormSubmitButton"] button * {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            border: 1px solid #999999 !important;
-        }
-
-        /* Fix download button */
-        [data-testid="stDownloadButton"] button,
-        [data-testid="stDownloadButton"] button * {
-            color: #000 !important;
-        }
 
         /* ---------------------------
            Chat text (assistant + user)
@@ -140,7 +116,39 @@ def main() -> None:
             color: #000 !important;
         }
 
-        /* Background */
+        /* ---------------------------
+           Buttons
+        --------------------------- */
+
+        /* Download PDF button */
+        [data-testid="stDownloadButton"] button {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #999999 !important;
+            box-shadow: none !important;
+        }
+        [data-testid="stDownloadButton"] button * {
+            color: inherit !important;
+            background: transparent !important;
+        }
+
+        /* Send button (form submit) */
+        [data-testid="stFormSubmitButton"] button,
+        div.stButton > button {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #999999 !important;
+            box-shadow: none !important;
+        }
+        [data-testid="stFormSubmitButton"] button *,
+        div.stButton > button * {
+            color: inherit !important;
+            background: transparent !important;
+        }
+
+        /* ---------------------------
+           Background
+        --------------------------- */
         [data-testid="stAppViewContainer"] {
             background-color: #F5F7FA !important;
         }
