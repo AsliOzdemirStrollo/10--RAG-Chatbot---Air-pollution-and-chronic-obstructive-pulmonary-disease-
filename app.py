@@ -95,9 +95,6 @@ def main() -> None:
 
     st.markdown("---")
 
-    # --- Initialise chat engine ---
-    chat_engine = init_chat_engine()
-
     # --- Chat history in session state ---
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -137,9 +134,10 @@ def main() -> None:
         with st.chat_message("user"):
             st.markdown(user_input)
 
-        # Get answer from RAG engine
+        # Lazily initialise chat engine & get answer from RAG engine
         with st.chat_message("assistant"):
             with st.spinner("Me, thinking extremely hard... 😤"):
+                chat_engine = init_chat_engine()  # cached, heavy only on first run
                 answer = chat_engine.chat(user_input)
                 answer_text = getattr(answer, "response", str(answer))
                 st.markdown(answer_text)
