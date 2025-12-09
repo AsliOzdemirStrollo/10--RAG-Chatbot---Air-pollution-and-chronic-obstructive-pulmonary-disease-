@@ -25,10 +25,23 @@ DOC_TITLES = {
 
 @st.cache_resource
 def init_chat_engine() -> object:
-    """Load LLM, embeddings and RAG engine only once."""
+    """Load LLM, embeddings and RAG engine only once, with debug logging."""
+    import sys
+
+    print("init_chat_engine: starting", file=sys.stderr, flush=True)
+
+    print("init_chat_engine: initialise_llm()", file=sys.stderr, flush=True)
     llm: GoogleGenAI = initialise_llm()
+    print("init_chat_engine: LLM created", file=sys.stderr, flush=True)
+
+    print("init_chat_engine: get_embedding_model()", file=sys.stderr, flush=True)
     embed_model: HuggingFaceEmbedding = get_embedding_model()
+    print("init_chat_engine: embedding model loaded", file=sys.stderr, flush=True)
+
+    print("init_chat_engine: get_chat_engine()", file=sys.stderr, flush=True)
     chat_engine = get_chat_engine(llm=llm, embed_model=embed_model)
+    print("init_chat_engine: chat engine built", file=sys.stderr, flush=True)
+
     return chat_engine
 
 
