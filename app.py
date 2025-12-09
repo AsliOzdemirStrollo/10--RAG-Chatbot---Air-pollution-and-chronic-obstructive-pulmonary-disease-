@@ -36,7 +36,9 @@ def init_chat_engine() -> object:
             self.llm = llm
 
         def chat(self, query: str):
-            response = self.llm.chat(query)
+            response = self.llm.chat(
+                messages=[{"role": "user", "content": query}]
+            )
             return type("Resp", (), {"response": str(response)})
 
     return SimpleChatEngine(llm)
