@@ -4,6 +4,7 @@ import streamlit as st
 
 from llama_index.llms.google_genai import GoogleGenAI
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.core.llms import ChatMessage, MessageRole
 
 from src.engine import get_chat_engine
 from src.model_loader import initialise_llm, get_embedding_model
@@ -36,9 +37,11 @@ def init_chat_engine() -> object:
             self.llm = llm
 
         def chat(self, query: str):
-            response = self.llm.chat(
-                messages=[{"role": "user", "content": query}]
-            )
+            # GoogleGenAI via llama-index expects a list[ChatMessage]
+            messages = [ChatMessage(role=MessageRole.USER, content=query)]
+            response = self.llm.chat(messages)
+
+            # response is a ChatResponse; we just turn it into text
             return type("Resp", (), {"response": str(response)})
 
     return SimpleChatEngine(llm)
