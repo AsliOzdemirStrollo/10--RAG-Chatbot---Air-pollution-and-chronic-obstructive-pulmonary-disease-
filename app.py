@@ -86,6 +86,7 @@ def main() -> None:
 
     # --- Custom CSS to fix text visibility in dark & light mode ---
   
+       
     st.markdown("""
     <style>
 
@@ -97,7 +98,7 @@ def main() -> None:
         color: #000 !important;
     }
 
-    /* Fix markdown inside chat bubbles */
+    /* Fix markdown inside chat bubbles and main area */
     [data-testid="stMarkdownContainer"] *,
     .stMarkdown p,
     .stMarkdown span,
@@ -113,10 +114,15 @@ def main() -> None:
         color: #000 !important;
     }
 
-    /* Fix text inside download button & other widgets */
-    .stDownloadButton,
-    .stDownloadButton * {
-        color: #000 !important;
+    /* Fix download button + other buttons (Send) */
+    [data-testid="stDownloadButton"] button,
+    button[kind="secondary"],
+    button[kind="primary"],
+    button[kind="formSubmit"],
+    [data-testid^="baseButton"] {
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
+        border: 1px solid #999999 !important;
     }
 
     /* Keep your background stable */
